@@ -506,9 +506,10 @@ function user_info_edit_minus_admin($prev_user_name, $new_name, $new_pass, $new_
 	}
 
 }
-function user_credti_minus($con, $user_id, $sms_num) {
-    $sql_minus_user_credit = "UPDATE user_info_cat SET user_allocated_sms_credit = user_allocated_sms_credit - $sms_num WHERE user_login_name = '$user_id'";
-    mysqli_query($con, $sql_minus_user_credit);
+function user_credti_minus($con, $user_id, $sms_num)
+{
+	$sql_minus_user_credit = "UPDATE user_info_cat SET user_allocated_sms_credit = user_allocated_sms_credit - $sms_num WHERE user_login_name = '$user_id'";
+	mysqli_query($con, $sql_minus_user_credit);
 }
 
 

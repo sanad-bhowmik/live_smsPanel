@@ -96,7 +96,7 @@ if (isset($_SESSION["_u_li_"])) {
                                                 $mobile_numbers = explode(" ", $find1);
                                                 $n = count($mobile_numbers);
 
-                                                $sms = $_REQUEST["text"];
+                                                $sms = mysqli_real_escape_string($con, $_REQUEST["text"]);
                                                 $lang = "English";
                                                 $num_of_sending_sms = $n;
 
@@ -130,7 +130,7 @@ if (isset($_SESSION["_u_li_"])) {
                                                                 'secretkey' => $secretkey,
                                                                 'callerID' => $callerID,
                                                                 'toUser' => $to,
-                                                                'messageContent' => $sms
+                                                                'messageContent' => $_REQUEST["text"]
                                                             );
                                                             
                                                             $ch = curl_init();
