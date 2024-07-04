@@ -1,9 +1,6 @@
 <?php
 session_start();
 require "function.php";
-// include('db.php');
-// echo $user_name;
-// die();
 
 if (isset($_SESSION["_u_li_"])) {
     $login_user_name = $_SESSION["_u_li_"];
@@ -118,11 +115,33 @@ if (isset($_SESSION["_u_li_"])) {
                                                             $date = date("Y-m-d H:i:s");
                                                             $sql = "INSERT INTO mt_log (sender, Mob_To, sms, date_time, telco_id, lang) VALUES ('$sender', '$to', '$sms', '$date', '$telco_ID', '$lang')";
                                                             $sqlsend = "INSERT INTO metro_send_sms_log (sender, Mob_To, sms, date_time, status, lang) VALUES ('$sender', '$to', '$sms', '$date', '1', '$lang')";
-                                                            // echo $sqlsend;
-                                                            // die;
                                                             mysqli_query($con, "SET NAMES 'UTF8'");
                                                             mysqli_query($con, $sql);
                                                             $res = mysqli_query($con, $sqlsend);
+                                                            
+                                                            // Integrate SMS server link
+                                                            $url = "http://103.53.84.15:8746/sendtext";
+                                                            $apikey = 'dfbd6568d15577db';
+                                                            $secretkey = '61784eda';
+                                                            $callerID = '8809612444767';
+                                                            
+                                                            $postData = array(
+                                                                'apikey' => $apikey,
+                                                                'secretkey' => $secretkey,
+                                                                'callerID' => $callerID,
+                                                                'toUser' => $to,
+                                                                'messageContent' => $sms
+                                                            );
+                                                            
+                                                            $ch = curl_init();
+                                                            curl_setopt($ch, CURLOPT_URL, $url);
+                                                            curl_setopt($ch, CURLOPT_POST, 1);
+                                                            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+                                                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                                            
+                                                            $response = curl_exec($ch);
+                                                            curl_close($ch);
+
                                                             if ($res) {
                                                                 user_credti_minus($con, $login_user_name, 1);
                                                                 $msg = "SMS SEND Successfully";
