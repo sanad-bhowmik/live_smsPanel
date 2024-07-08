@@ -1031,7 +1031,7 @@ p {
 .section_content_footer a:hover,
 .section_content_footer a:active {
 	font-size: 11px;
-	color: #406f85;
+	color: rgb(57, 170, 223);
 	display: block;
 	float: left;
 	white-space: nowrap;
